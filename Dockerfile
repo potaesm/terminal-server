@@ -49,13 +49,32 @@ RUN rm /etc/localtime && \
 RUN apt-get install -y --no-install-recommends xfonts-thai
 
 # Add Kali source
-RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys ED444FF07D8D0BF6
+# RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+# RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys ED444FF07D8D0BF6
 
 RUN apt-get update
 
-# Install Kali tools
-RUN apt-get install -y --no-install-recommends kali-tools-top10
+# NodeJS
+RUN apt-get install -y --no-install-recommends npm && \
+    npm install n -g && \
+    n lts
+
+# Python2
+RUN apt-get install -y --no-install-recommends python && \
+    curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
+    python2 get-pip.py
+
+# Python3
+RUN apt-get install -y --no-install-recommends python3-pip
+
+# Numpy
+RUN pip install numpy && pip3 install numpy
+
+# Java
+RUN apt-get install -y --no-install-recommends default-jre default-jdk
+
+# Config Git
+RUN git config --global credential.helper store
 
 COPY root.sh /usr/local/bin/root.sh
 COPY .bashrc $HOME/.bashrc
