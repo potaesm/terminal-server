@@ -1,3 +1,3 @@
 #!/bin/bash
 
-# fakechroot chroot /
+fakechroot chroot /

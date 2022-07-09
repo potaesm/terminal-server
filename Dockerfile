@@ -62,10 +62,12 @@ RUN apt-get clean -y && \
 # Turn off swap
 RUN swapoff -a
 
+# Make ttyd executable
 RUN chmod +x /usr/local/bin/ttyd
 
-RUN adduser --disabled-password --gecos '' potaesm
-RUN adduser potaesm sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# Add user
+# RUN adduser --disabled-password --gecos '' potaesm
+# RUN adduser potaesm sudo
+# RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER potaesm
+# USER potaesm
