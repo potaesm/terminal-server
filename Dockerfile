@@ -2,10 +2,7 @@ FROM debian:11
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
-
-RUN useradd potaesm --password aabbccdd
-RUN adduser potaesm sudo
-RUN echo root:aabbccdd | chpasswd
+RUN echo 'root:$PASSWORD' | chpasswd
 
 # Basic Tools
 RUN apt-get update && \
@@ -66,3 +63,14 @@ RUN apt-get clean -y && \
 RUN swapoff -a
 
 RUN chmod +x /usr/local/bin/ttyd
+
+# Set user and group
+ARG USER=potaesm
+ARG GROUP=appuser
+ARG UID=1000
+ARG GID=1000
+RUN GROUPadd -g ${GID} ${GROUP}
+RUN useradd -u ${UID} -g ${GROUP} -s /bin/sh -m ${USER}
+
+# Switch to user
+USER ${UID}:${GID}
