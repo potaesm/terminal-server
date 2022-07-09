@@ -50,6 +50,7 @@ RUN apt-get install -y --no-install-recommends xfonts-thai
 
 # Add Kali source
 RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys ED444FF07D8D0BF6
 
 RUN apt-get update
 
