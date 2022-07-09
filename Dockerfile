@@ -74,8 +74,8 @@ RUN chmod +x /usr/local/bin/ttyd
 # # Switch to user
 # USER ${UID}:${GID}
 
-RUN adduser --disabled-password --gecos '' potaesm
-RUN adduser potaesm sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# RUN adduser --disabled-password --gecos '' potaesm
+# RUN adduser potaesm sudo
+# RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER potaesm
+# USER potaesm

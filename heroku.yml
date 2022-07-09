@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: ttyd -c $USERNAME:$PASSWORD -p $PORT bash
+  web: ttyd -c $USERNAME:$PASSWORD -p $PORT bash -u 0 -g 0
