@@ -1,6 +1,7 @@
 FROM debian:11
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV USER root
 
 # Basic Tools
 RUN apt-get update && \
