@@ -32,8 +32,32 @@ RUN apt-get update && \
     fakechroot \
     neofetch
 
+# Set Locale and Timezone
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    dpkg-reconfigure -f noninteractive locales
+
+# Set Timezone
+RUN rm /etc/localtime && \
+    echo "Asia/Bangkok" > /etc/timezone && \
+    dpkg-reconfigure -f noninteractive tzdata
+
+# Thai fonts
+RUN apt-get install -y --no-install-recommends xfonts-thai
+
+RUN apt-get update
+
 COPY root.sh /usr/local/bin/root.sh
 COPY .bashrc $HOME/.bashrc
-ADD https://github.com/tsl0922/ttyd/releases/download/1.6.3/ttyd_linux.x86_64 /usr/local/bin/ttyd
+ADD https://github.com/tsl0922/ttyd/releases/download/1.6.3/ttyd.x86_64 /usr/local/bin/ttyd
+
+# Clean up
+RUN apt-get clean -y && \
+    echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
+    rm -rf /var/lib/apt/lists/*
+
+# Turn off swap
+RUN swapoff -a
 
 RUN chmod +x /usr/local/bin/ttyd
