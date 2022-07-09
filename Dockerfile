@@ -3,7 +3,9 @@ FROM debian:11
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 
-RUN echo 'root:aabbccdd' | chpasswd
+RUN useradd potaesm --password aabbccdd
+RUN adduser potaesm sudo
+RUN echo root:aabbccdd | chpasswd
 
 # Basic Tools
 RUN apt-get update && \
