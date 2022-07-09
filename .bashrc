@@ -1,4 +1,4 @@
 #!/bin/bash
 
-su -
+echo 'aabbccdd' | su -
 neofetch
