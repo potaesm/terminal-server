@@ -8,3 +8,8 @@ heroku git:remote -a APP_NAME
 # Set stack to container
 heroku stack:set container
 ```
+# Config Vars
+```bash
+USERNAME    potaesm
+PASSWORD    1234567890
+```

@@ -3,6 +3,8 @@ FROM debian:11
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 
+RUN echo 'root:aabbccdd' | chpasswd
+
 # Basic Tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
