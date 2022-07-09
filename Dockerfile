@@ -64,18 +64,8 @@ RUN swapoff -a
 
 RUN chmod +x /usr/local/bin/ttyd
 
-# # Set user and group
-# ARG USER=potaesm
-# ARG GROUP=appuser
-# ARG UID=1000
-# ARG GID=1000
-# RUN groupadd -g ${GID} ${GROUP}
-# RUN useradd -u ${UID} -g ${GROUP} -s /bin/sh -m ${USER}
-# # Switch to user
-# USER ${UID}:${GID}
+RUN adduser --disabled-password --gecos '' potaesm
+RUN adduser potaesm sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# RUN adduser --disabled-password --gecos '' potaesm
-# RUN adduser potaesm sudo
-# RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-# USER potaesm
+USER potaesm
