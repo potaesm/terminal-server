@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo aabbccdd | su -
+whoami
 neofetch
