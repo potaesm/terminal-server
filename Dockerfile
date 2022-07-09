@@ -48,7 +48,13 @@ RUN rm /etc/localtime && \
 # Thai fonts
 RUN apt-get install -y --no-install-recommends xfonts-thai
 
+# Add Kali source
+RUN echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+
 RUN apt-get update
+
+# Install Kali tools
+RUN apt-get install -y --no-install-recommends kali-tools-top10
 
 COPY root.sh /usr/local/bin/root.sh
 COPY .bashrc $HOME/.bashrc
