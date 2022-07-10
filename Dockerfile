@@ -18,6 +18,8 @@ RUN apt-get update && \
     bzip2 \
     wget \
     curl \
+    telnet \
+    iputils-ping \
     openssh-server \
     openssh-client \
     nano \
@@ -31,6 +33,7 @@ RUN apt-get update && \
     git \
     rsync \
     sudo \
+    fakeroot \
     fakechroot \
     neofetch
 
@@ -62,7 +65,8 @@ RUN apt-get install -y --no-install-recommends npm && \
 # Python2
 RUN apt-get install -y --no-install-recommends python && \
     curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
-    python2 get-pip.py
+    python2 get-pip.py && \
+    rm -rf get-pip.py
 
 # Python3
 RUN apt-get install -y --no-install-recommends python3-pip
