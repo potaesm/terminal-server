@@ -7,11 +7,11 @@ RUN echo 'root:$PASSWORD' | chpasswd
 # Basic Tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    apt-utils \
     software-properties-common \
     build-essential \
     ca-certificates \
     gnupg2 \
-    apt-utils \
     libjson-c-dev \
     libwebsockets-dev \
     unzip \
@@ -19,7 +19,8 @@ RUN apt-get update && \
     wget \
     curl \
     telnet \
-    iputils-ping \
+    # iputils-ping \
+    openvpn \
     openssh-server \
     openssh-client \
     nano \
@@ -35,6 +36,7 @@ RUN apt-get update && \
     sudo \
     fakeroot \
     fakechroot \
+    nmap \
     neofetch
 
 # Set Locale and Timezone
