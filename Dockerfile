@@ -4,13 +4,17 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 RUN echo 'root:$PASSWORD' | chpasswd
 
+# App utils
+RUN apt-get update && \
+    apt-get install -y apt-utils 2>&1 | grep -v "debconf: delaying package configuration, since apt-utils is not installed"
+
 # Basic Tools
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    apt-utils \
     software-properties-common \
     build-essential \
     ca-certificates \
+    locales \
     gnupg2 \
     libjson-c-dev \
     libwebsockets-dev \
@@ -19,15 +23,14 @@ RUN apt-get update && \
     wget \
     curl \
     telnet \
-    # iputils-ping \
     openvpn \
     openssh-server \
     openssh-client \
     nano \
     vim \
+    net-tools \
     dumb-init \
     htop \
-    locales \
     man \
     procps \
     cmake \
