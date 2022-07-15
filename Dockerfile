@@ -82,6 +82,22 @@ RUN pip install numpy && pip3 install numpy
 # Java
 RUN apt-get install -y --no-install-recommends default-jre default-jdk
 
+# Ruby
+RUN apt-get install -y --no-install-recommends ruby-full
+
+# BeEF
+RUN apt-get update && \
+    apt-get install -y net-tools curl git build-essential openssl libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev autoconf libc6-dev libncurses5-dev automake libtool bison nodejs && \
+    cd /home/ && \
+    git clone --depth=1 --recursive https://github.com/beefproject/beef/ /home/beef && \
+    cd /home/beef && \
+    bundle install --without test development && \
+    ./generate-certificate && \
+    rm -rf /home/beef/.git && \
+    apt-get remove -y git build-essential automake && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
 # Config Git
 RUN git config --global credential.helper store
 
