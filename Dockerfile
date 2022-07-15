@@ -2,9 +2,8 @@ FROM debian:11
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
-ARG PASSWORD
 
-RUN echo "root:${PASSWORD}" | chpasswd
+RUN echo 'root:root' | chpasswd
 
 # App utils
 RUN apt-get update && \
