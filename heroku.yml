@@ -2,6 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: /beef/beef -p $PORT
-# run:
-#   web: ttyd -u 0 -g 0 -c $USERNAME:$PASSWORD -p $PORT bash
+  web: ttyd -u 0 -g 0 -c $USERNAME:$PASSWORD -p $PORT bash
