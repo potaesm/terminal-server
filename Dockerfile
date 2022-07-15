@@ -86,6 +86,32 @@ RUN apt-get install -y --no-install-recommends default-jre default-jdk
 # Ruby
 RUN apt-get install -y --no-install-recommends ruby ruby-dev ruby-bundler
 
+# BeEF
+RUN apt-get install -y --no-install-recommends \
+    openssl \
+    libreadline6-dev \
+    zlib1g zlib1g-dev \
+    libssl-dev \
+    libyaml-dev \
+    libsqlite3-0 \
+    libsqlite3-dev \
+    sqlite3 \
+    libxml2-dev \
+    libxslt1-dev \
+    autoconf \
+    libc6-dev \
+    libncurses5-dev \
+    automake \
+    libtool \
+    bison
+RUN git clone --depth=1 --recursive https://github.com/beefproject/beef/ /beef && \
+    cd beef && \
+    bundle install --without test development && \
+    ./generate-certificate && \
+    sed -i "s/user:   \"beef\"/user: \"beefuser\"/" config.yaml && \
+    sed -i "s/passwd: \"beef\"/passwd: \"beefpassword\"/" config.yaml && \
+    cd ..
+
 # Config Git
 RUN git config --global credential.helper store
 
