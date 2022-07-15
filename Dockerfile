@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 ARG PASSWORD
 
-RUN echo 'root:${PASSWORD}' | chpasswd
+RUN echo "root:${PASSWORD}" | chpasswd
 
 # App utils
 RUN apt-get update && \
