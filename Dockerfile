@@ -41,7 +41,8 @@ RUN apt-get update && \
     fakeroot \
     fakechroot \
     nmap \
-    neofetch
+    neofetch \
+    proxychains
 
 # Set Locale and Timezone
 RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
