@@ -42,6 +42,7 @@ RUN apt-get update && \
     fakechroot \
     nmap \
     neofetch \
+    netcat \
     proxychains
 
 # Set Locale and Timezone
