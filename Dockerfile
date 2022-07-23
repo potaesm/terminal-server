@@ -1,5 +1,9 @@
 FROM debian:11
 
+# ARG PORT
+# ARG USERNAME
+# ARG PASSWORD
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
 
@@ -112,3 +116,7 @@ RUN chmod +x /usr/local/bin/ttyd
 # RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # USER potaesm
+
+# ENTRYPOINT ttyd -u 0 -g 0 -c ${USERNAME}:${PASSWORD} -p ${PORT} bash
+
+# EXPOSE ${PORT}
