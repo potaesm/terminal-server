@@ -1,13 +1,21 @@
 FROM debian:11
 
-# ARG PORT
-# ARG USERNAME
-# ARG PASSWORD
+ARG PORT
+ARG USERNAME
+ARG PASSWORD
 
+ENV PORT ${PORT}
+ENV USERNAME ${USERNAME}
+ENV PASSWORD ${PASSWORD}
+
+ENV LANG C.UTF-8
+ENV LANGUAGE C.UTF-8
+ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
-ENV USER root
 
-RUN echo 'root:root' | chpasswd
+# Change root password to "pass"
+ENV USER root
+RUN echo 'root:pass' | chpasswd
 
 # App utils
 RUN apt-get update && \
@@ -19,7 +27,6 @@ RUN apt-get update && \
     software-properties-common \
     build-essential \
     ca-certificates \
-    locales \
     gnupg2 \
     libjson-c-dev \
     libwebsockets-dev \
@@ -47,13 +54,8 @@ RUN apt-get update && \
     nmap \
     neofetch \
     netcat \
-    proxychains
-
-# Set Locale and Timezone
-RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
-    echo "LANG=en_US.UTF-8" > /etc/locale.conf && \
-    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
-    dpkg-reconfigure -f noninteractive locales
+    proxychains \
+    certbot
 
 # Set Timezone
 RUN rm /etc/localtime && \
@@ -70,10 +72,24 @@ RUN apt-get install -y --no-install-recommends xfonts-thai
 RUN apt-get update
 
 # NodeJS
-RUN apt-get install -y --no-install-recommends npm && \
-    npm install n -g && \
-    n lts
+# RUN apt-get install -y --no-install-recommends npm && \
+#     npm install n --location=global && \
+#     n lts
+RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && \
+    . /root/.bashrc && \
+    nvm install node --lts && \
+    nvm install 12 && \
+    nvm install 14 && \
+    nvm install 16 && \
+    nvm install 18 && \
+    nvm use stable
 
+# Yarn for node 16 and 18
+RUN . /root/.bashrc && \
+    nvm use 16 && \
+    npm install --location=global yarn && \
+    nvm use 18 && \
+    npm install --location=global yarn
 # Python2
 RUN apt-get install -y --no-install-recommends python && \
     curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
@@ -84,7 +100,7 @@ RUN apt-get install -y --no-install-recommends python && \
 RUN apt-get install -y --no-install-recommends python3-pip
 
 # Numpy
-RUN pip install numpy && pip3 install numpy
+# RUN pip install numpy virtualenv && pip3 install numpy virtualenv
 
 # Java
 RUN apt-get install -y --no-install-recommends default-jre default-jdk
@@ -92,31 +108,36 @@ RUN apt-get install -y --no-install-recommends default-jre default-jdk
 # Ruby
 RUN apt-get install -y --no-install-recommends ruby ruby-dev ruby-bundler
 
+# Go
+RUN wget https://go.dev/dl/go1.19.5.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.19.5.linux-amd64.tar.gz
+RUN echo "export PATH=/usr/local/go/bin:${PATH}" >> /root/.bashrc
+RUN rm -rf go1.19.5.linux-amd64.tar.gz
+
 # Config Git
 RUN git config --global credential.helper store
 
+# TTYD
 COPY root.sh /usr/local/bin/root.sh
 COPY .bashrc $HOME/.bashrc
-ADD https://github.com/tsl0922/ttyd/releases/download/1.6.3/ttyd.x86_64 /usr/local/bin/ttyd
+ADD https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 /usr/local/bin/ttyd
+RUN chmod +x /usr/local/bin/ttyd
 
 # Clean up
 RUN apt-get clean -y && \
-    echo "nameserver 1.1.1.1" > /etc/resolv.conf && \
+    # echo "nameserver 1.1.1.1" > /etc/resolv.conf && \
     rm -rf /var/lib/apt/lists/*
 
 # Turn off swap
-RUN swapoff -a
-
-# Make ttyd executable
-RUN chmod +x /usr/local/bin/ttyd
+# RUN swapoff -a
 
 # Add user
-# RUN adduser --disabled-password --gecos '' potaesm
-# RUN adduser potaesm sudo
-# RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN adduser --disabled-password --gecos '' potaesm
+RUN adduser potaesm sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# USER potaesm
+USER potaesm
 
-# ENTRYPOINT ttyd -u 0 -g 0 -c ${USERNAME}:${PASSWORD} -p ${PORT} bash
+ENTRYPOINT ttyd -u 0 -g 0 -c ${USERNAME}:${PASSWORD} -p ${PORT} bash
 
-# EXPOSE ${PORT}
+EXPOSE ${PORT}
