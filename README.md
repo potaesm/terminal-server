@@ -25,6 +25,7 @@ heroku stack:set container
 # Config Vars
 
 ```bash
+PORT        3000
 USERNAME    potaesm
 PASSWORD    aabbccdd
 ```
