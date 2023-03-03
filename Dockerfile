@@ -34,6 +34,7 @@ RUN apt-get update && \
     bzip2 \
     wget \
     curl \
+    iputils-ping \
     telnet \
     openvpn \
     openssh-server \
