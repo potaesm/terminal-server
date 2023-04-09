@@ -139,6 +139,6 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER potaesm
 
-ENTRYPOINT ttyd -u 0 -g 0 -c ${USERNAME}:${PASSWORD} -p ${PORT} bash
+ENTRYPOINT ttyd -u 0 -g 0 -c ${USERNAME}:${PASSWORD} -p ${PORT} -t disableReconnect=true bash
 
 EXPOSE ${PORT}
