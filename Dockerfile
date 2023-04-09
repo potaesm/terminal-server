@@ -35,6 +35,7 @@ RUN apt-get update && \
     wget \
     curl \
     iputils-ping \
+    dnsutils \
     telnet \
     openvpn \
     openssh-server \
